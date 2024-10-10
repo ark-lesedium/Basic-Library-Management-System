@@ -1,0 +1,13 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Delete All Books{% endblock %}
+
+{% block content %}
+<h2>Delete All Books</h2>
+<p>Are you sure you want to delete all books? This action cannot be undone.</p>
+<form method="POST" action="{% url 'delete_all_books' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete All Books</button>
+    <a href="{% url 'book_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

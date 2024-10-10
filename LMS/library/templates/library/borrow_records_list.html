@@ -1,0 +1,46 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Borrow Records{% endblock %}
+
+{% block content %}
+<h2>Borrow Records</h2>
+
+<a href="{% url 'add_borrow_record' %}" class="btn">Add New Borrow Record</a>
+<a href="{% url 'undo_last_borrow_action' %}" class="btn">Undo Last Action</a>
+<a href="{% url 'delete_all_borrow_records' %}" class="btn">Delete All Records</a>
+
+<form method="GET" action="{% url 'borrow_records_list' %}" class="search-form">
+    <input type="text" name="search" placeholder="Search borrow records..." class="search-input">
+    <button type="submit" class="search-btn">Search</button>
+</form>
+
+<table class="modern-table">
+    <thead>
+        <tr>
+            <th>Book Title</th>
+            <th>Borrowed By</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in borrow_records %}
+            <tr>
+                <td>{{ record.book.title }}</td>
+                <td>{{ record.member.name }}</td>
+                <td>{{ record.borrow_date }}</td>
+                <td>{{ record.return_date|default:"Not returned yet" }}</td>
+                <td>
+                    <a href="{% url 'update_borrow_record' record.id %}">Edit</a> | 
+                    <a href="{% url 'delete_borrow_record' record.id %}">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No borrow records available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Delete All Borrow Records{% endblock %}
+
+{% block content %}
+<h2>Delete All Borrow Records</h2>
+<p>Are you sure you want to delete all borrow records? This action cannot be undone.</p>
+<form method="POST" action="{% url 'delete_all_borrow_records' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete All Borrow Records</button>
+    <a href="{% url 'borrow_records_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

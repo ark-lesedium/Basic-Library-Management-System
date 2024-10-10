@@ -1,0 +1,45 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Members List{% endblock %}
+
+{% block content %}
+<h2>Members List</h2>
+<a href="{% url 'add_member' %}" class="btn">Add New Member</a>
+<a href="{% url 'undo_last_member_action' %}" class="btn">Undo Last Action</a>
+<a href="{% url 'delete_all_members' %}" class="btn">Delete All Records</a>
+
+<form method="GET" action="{% url 'members_list' %}" class="search-form">
+    <input type="text" name="search" placeholder="Search members..." class="search-input">
+    <button type="submit" class="search-btn">Search</button>
+</form>
+
+<table class="modern-table">
+    <thead>
+        <tr>
+            <th>Member ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in members %}
+            <tr>
+                <td>{{ member.member_id }}</td>
+                <td>{{ member.name }}</td>
+                <td>{{ member.address }}</td>
+                <td>{{ member.phone_number }}</td>
+                <td>
+                    <a href="{% url 'update_member' member.member_id %}">Edit</a> | 
+                    <a href="{% url 'delete_member' member.member_id %}">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No members available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

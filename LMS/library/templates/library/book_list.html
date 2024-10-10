@@ -1,0 +1,46 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Book List{% endblock %}
+
+{% block content %}
+<h2>Book List</h2>
+
+<a href="{% url 'add_book' %}" class="btn">Add New Book</a>
+<a href="{% url 'undo_last_action' %}" class="btn">Undo Last Action</a>
+<a href="{% url 'delete_all_books' %}" class="btn">Delete All Records</a>
+
+<form method="GET" action="{% url 'book_list' %}" class="search-form">
+    <input type="text" name="search" placeholder="Search for a book..." value="{{ request.GET.search }}" class="search-input">
+    <button type="submit" class="search-btn">Search</button>
+</form>
+
+<table class="modern-table">
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.publisher }}</td>
+                <td>
+                    <a href="{% url 'update_book' book.isbn %}">Edit</a> | 
+                    <a href="{% url 'delete_book' book.isbn %}">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No books available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

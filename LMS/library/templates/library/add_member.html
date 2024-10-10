@@ -1,0 +1,13 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Add Member{% endblock %}
+
+{% block content %}
+<h2>Add Member</h2>
+<form method="post" class="member-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="submit-member-btn">Add Member</button>
+</form>
+<a href="{% url 'members_list' %}" class="back-member-btn">Back to Members List</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Add Borrow Record{% endblock %}
+
+{% block content %}
+<h2>Add Borrow Record</h2>
+<form method="post" class="styled-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="submit-btn">Add Borrow Record</button>
+</form>
+<a href="{% url 'borrow_records_list' %}" class="back-btn">Back to Borrow Records</a>
+{% endblock %}

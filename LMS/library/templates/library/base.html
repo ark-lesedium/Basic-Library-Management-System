@@ -1,0 +1,872 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GLMS{% endblock %}</title>
+    <style>
+
+        /* Admin Dashboard container with background GIF */
+        .admin-dashboard {
+            text-align: center;
+            padding: 50px 20px;
+            background: url("{% static 'images/book.gif' %}") no-repeat center center;
+            background-size: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-dashboard-head p {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .admin-dashboard-head h1{
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #007BFF; /* Modern blue color */
+        }
+
+
+        
+        .admin-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .admin-buttons .btn {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Landing page styling */
+        .landing-page {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .landing-page h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #007BFF; /* Modern blue color */
+        }
+        
+        .landing-page p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+        
+        .landing-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .landing-buttons .btn {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+
+        /* Background image */
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(60%); /* Optional: Darkens the image slightly for better contrast */
+        }
+
+        /* Main content */
+        .container {
+            flex: 1;
+            max-width: 800px; /* Reduced size */
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8); /* Increased transparency */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            z-index: 1;
+        }
+
+        /* Navigation bar styles */
+        nav {
+            
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            position: relative;
+        }
+
+        nav .brand {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Modern button styling */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Modern input box styling */
+        input[type="text"], input[type="number"], input[type="date"], input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="password"]:focus {
+            border-color: #4A4A4A;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer Styles */
+        footer {
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            border-top: 1px solid #444;
+            z-index: 2;
+            position: relative;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer p span {
+            font-weight: bold;
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+                /* Modern table styling */
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        
+        .modern-table th, .modern-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .modern-table th {
+            background-color: #007BFF;
+            color: white;
+        }
+        
+        .modern-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .modern-table tr:hover {
+            background-color: #ddd;
+        }
+        
+        .modern-table a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .modern-table a:hover {
+            color: #0056b3;
+        }
+
+                /* Modern table styling */
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        
+        .modern-table th, .modern-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .modern-table th {
+            background-color: #007BFF;
+            color: white;
+        }
+        
+        .modern-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .modern-table tr:hover {
+            background-color: #ddd;
+        }
+        
+        .modern-table a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .modern-table a:hover {
+            color: #0056b3;
+        }
+        
+        /* Modern search form styling */
+        .search-form {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 50px 0 0 50px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 0 50px 50px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+
+                /* Modern form styling */
+        .modern-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modern-form input[type="text"],
+        .modern-form input[type="number"],
+        .modern-form input[type="date"],
+        .modern-form input[type="password"],
+        .modern-form select,
+        .modern-form textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .modern-form input[type="text"]:focus,
+        .modern-form input[type="number"]:focus,
+        .modern-form input[type="date"]:focus,
+        .modern-form input[type="password"]:focus,
+        .modern-form select:focus,
+        .modern-form textarea:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modern-form button[type="submit"] {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Modern form styling */
+        .member-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .member-form input[type="text"],
+        .member-form input[type="number"],
+        .member-form input[type="date"],
+        .member-form input[type="password"],
+        .member-form select,
+        .member-form textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .member-form input[type="text"]:focus,
+        .member-form input[type="number"]:focus,
+        .member-form input[type="date"]:focus,
+        .member-form input[type="password"]:focus,
+        .member-form select:focus,
+        .member-form textarea:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-member-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .submit-member-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        
+        /* Back button styling */
+        .back-member-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #6c757d; /* Gray color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .back-member-btn:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+        
+        /* Modern form styling */
+        .book-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .book-form input[type="text"],
+        .book-form input[type="number"],
+        .book-form input[type="date"],
+        .book-form input[type="password"],
+        .book-form select,
+        .book-form textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .book-form input[type="text"]:focus,
+        .book-form input[type="number"]:focus,
+        .book-form input[type="date"]:focus,
+        .book-form input[type="password"]:focus,
+        .book-form select:focus,
+        .book-form textarea:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-book-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .submit-book-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        
+        /* Back button styling */
+        .back-book-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #6c757d; /* Gray color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .back-book-btn:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+
+        .modern-form button[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Modern form styling */
+        .styled-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .styled-form input[type="text"],
+        .styled-form input[type="number"],
+        .styled-form input[type="date"],
+        .styled-form input[type="password"],
+        .styled-form select,
+        .styled-form textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .styled-form input[type="text"]:focus,
+        .styled-form input[type="number"]:focus,
+        .styled-form input[type="date"]:focus,
+        .styled-form input[type="password"]:focus,
+        .styled-form select:focus,
+        .styled-form textarea:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .styled-form button[type="submit"] {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .styled-form button[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        
+        /* Back button styling */
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #6c757d; /* Gray color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .back-btn:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+
+        /* Modern form styling for update book */
+        .update-book-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .update-book-form input[type="text"],
+        .update-book-form input[type="number"],
+        .update-book-form input[type="date"],
+        .update-book-form input[type="password"],
+        .update-book-form select,
+        .update-book-form textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .update-book-form input[type="text"]:focus,
+        .update-book-form input[type="number"]:focus,
+        .update-book-form input[type="date"]:focus,
+        .update-book-form input[type="password"]:focus,
+        .update-book-form select:focus,
+        .update-book-form textarea:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-update-book-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .submit-update-book-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        
+        /* Back button styling for update book */
+        .back-update-book-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #6c757d; /* Gray color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .back-update-book-btn:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+        
+        /* Modern form styling for update borrow record */
+        .update-borrow-record-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .update-borrow-record-form input[type="text"],
+        .update-borrow-record-form input[type="number"],
+        .update-borrow-record-form input[type="date"],
+        .update-borrow-record-form input[type="password"],
+        .update-borrow-record-form select,
+        .update-borrow-record-form textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .update-borrow-record-form input[type="text"]:focus,
+        .update-borrow-record-form input[type="number"]:focus,
+        .update-borrow-record-form input[type="date"]:focus,
+        .update-borrow-record-form input[type="password"]:focus,
+        .update-borrow-record-form select:focus,
+        .update-borrow-record-form textarea:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-update-borrow-record-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .submit-update-borrow-record-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        
+        /* Back button styling for update borrow record */
+        .back-update-borrow-record-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #6c757d; /* Gray color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .back-update-borrow-record-btn:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+        
+        /* Modern form styling for update member */
+        .update-member-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .update-member-form input[type="text"],
+        .update-member-form input[type="number"],
+        .update-member-form input[type="date"],
+        .update-member-form input[type="password"],
+        .update-member-form select,
+        .update-member-form textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .update-member-form input[type="text"]:focus,
+        .update-member-form input[type="number"]:focus,
+        .update-member-form input[type="date"]:focus,
+        .update-member-form input[type="password"]:focus,
+        .update-member-form select:focus,
+        .update-member-form textarea:focus {
+            border-color: #007BFF;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-update-member-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #007BFF; /* Modern blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .submit-update-member-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        
+        /* Back button styling for update member */
+        .back-update-member-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #6c757d; /* Gray color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .back-update-member-btn:hover {
+            background-color: #5a6268; /* Darker gray on hover */
+        }
+    </style>
+</head>
+
+<body>
+        <!-- Background Image -->
+    <img src="{% static 'images/background.jpg' %}" alt="Background Image" class="background-image">
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="brand">Genesis Library Management System</div>
+        <ul>
+            <li><a href="{% url 'admin_dashboard' %}">Home</a></li>
+            <li><a href="{% url 'book_list' %}">Books</a></li>
+            <li><a href="{% url 'members_list' %}">Members</a></li>
+            <li><a href="{% url 'borrow_records_list' %}">Borrow Records</a></li>
+            
+            
+        </ul>
+    </nav>
+
+    <!-- Content Container -->
+    <div class="container">
+        {% block content %}
+        <!-- Modern Buttons -->
+        <a href="{% url 'add_book' %}" class="btn">Add New Book</a>
+        <a href="{% url 'undo_last_action' %}" class="btn">Undo Last Action</a>
+        <a href="{% url 'delete_all_books' %}" class="btn">Delete All Records</a>
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; <span>Genesis Library Management System</span> 2024</p>
+    </footer>
+
+    <script>
+        // Adding smooth transitions for link hover effects
+        document.addEventListener("DOMContentLoaded", function() {
+            const links = document.querySelectorAll('nav ul li a');
+            links.forEach(link => {
+                link.addEventListener('click', function() {
+                    links.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
